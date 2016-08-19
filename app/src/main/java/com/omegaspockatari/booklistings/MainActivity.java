@@ -213,26 +213,38 @@ public class MainActivity extends AppCompatActivity {
                     /**
                      * Temporary variables for storing/augmenting data to push to a book object
                      */
-
+                    StringBuilder tempBuilder = new StringBuilder();
+                    String picture = null;
+                    int rating;
                     int jAuthor = 0;
                     int jCategory = 0;
-                    StringBuilder tempBuilder = new StringBuilder();
 
                     JSONObject bookObject = bookArray.getJSONObject(i);
                     JSONObject bookInfo = bookObject.getJSONObject("volumeInfo");
-                    JSONObject bookPictures = bookObject.getJSONObject("imageLinks");
+
+                    if (bookObject.isNull("imageLinks")) {
+                        Log.v(LOG_TAG, "No Image Files");
+                    } else {
+                        JSONObject bookPictures = bookObject.getJSONObject("imageLinks");
+                        picture = bookPictures.getString("thumbnail");
+                    }
+
 
                     String title = bookInfo.getString("title");
                     String publisher = bookInfo.getString("publisher");
-                    int rating = bookInfo.getInt("averageRating");
-                    String picture = bookPictures.getString("thumbnail");
+                    if (bookInfo.isNull("averageRating")) {
+                        // Default unrated value? Hmm...
+                        rating = 5;
+                    } else {
+                        rating = bookInfo.getInt("averageRating");
+                    }
 
                     JSONArray authors = bookInfo.getJSONArray("authors");
 
                     /**
                      * Loop functions for the author(s) array
                      */
-                    while (jAuthor < authors.length()) {
+                    while (jAuthor <= authors.length()) {
                         tempBuilder.append(authors.get(i));
                         if (authors.length() > 1) {
                             tempBuilder.append(" ");
@@ -249,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                     tempBuilder.delete(0, tempBuilder.length());
 
 
-                    while (jCategory < categories.length()) {
+                    while (jCategory <= categories.length()) {
                         tempBuilder.append(categories.get(i));
                         if (categories.length() > 1) {
                             tempBuilder.append(" ");
@@ -260,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                     String category = tempBuilder.toString();
 
                     Log.v(LOG_TAG, title + " " + author + " " + publisher + " " + rating + " " +
-                            category + " " + "picture");
+                            category + " " + picture);
                     books.add(new Book(title, author, publisher, rating, category, picture));
 
                 }

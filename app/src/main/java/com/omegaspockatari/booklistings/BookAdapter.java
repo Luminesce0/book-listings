@@ -36,7 +36,11 @@ class BookAdapter extends ArrayAdapter<Book> {
         Book currentBook = getItem(position);
 
         ImageView bookImage = (ImageView) listItemView.findViewById(R.id.book_picture);
-        bookImage.setImageDrawable(LoadImageFromWebOperations(currentBook.getmPicture()));
+        if (currentBook.getmPicture() == null) {
+            bookImage.setImageDrawable(null);
+        } else {
+            bookImage.setImageDrawable(LoadImageFromWebOperations(currentBook.getmPicture()));
+        }
 
         TextView bookTitle = (TextView) listItemView.findViewById(R.id.book_title);
         bookTitle.setText(currentBook.getmTitle());
