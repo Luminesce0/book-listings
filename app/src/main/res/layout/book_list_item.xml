@@ -21,8 +21,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
         android:layout_margin="4dp"
+        android:layout_weight="1"
         android:gravity="center" />
 
     <LinearLayout
@@ -70,7 +70,6 @@
             tools:text="Author: J. K. Rowling" />
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,8 +78,8 @@
             android:orientation="horizontal">
 
             <RatingBar
-                style="@style/RatingBar"
                 android:id="@+id/book_rating"
+                style="@style/RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -98,6 +97,7 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|end"
+                android:scrollHorizontally="false"
                 android:textColor="@color/textColorTertiaryText"
                 android:textSize="12sp"
                 tools:text="Juvenile Thriller" />

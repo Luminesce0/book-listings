@@ -1,7 +1,6 @@
 package com.omegaspockatari.booklistings;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -59,14 +56,5 @@ class BookAdapter extends ArrayAdapter<Book> {
 
         return listItemView;
     }
-    // http://stackoverflow.com/questions/6407324/how-to-get-image-from-url-in-android
-    public static Drawable LoadImageFromWebOperations(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "photo");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
-    }
+
 }
