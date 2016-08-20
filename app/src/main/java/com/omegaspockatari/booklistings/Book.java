@@ -11,19 +11,19 @@ public class Book {
 
     private  String mPublisher;
 
-    private  int mRating;
+    private  double mRating;
 
     private  String mCategory;
 
     private String mPicture;
 
-    public Book(String mTitle, String mAuthor, String mPublisher, int mRating, String mCategory, String picture) {
+    public Book(String mTitle, String mAuthor, String mPublisher, double mRating, String mCategory, String picture) {
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
         this.mPublisher = mPublisher;
         this.mRating = mRating;
         this.mCategory = mCategory;
-        mPicture = picture;
+        this.mPicture = picture;
     }
 
     public String getmTitle() {
@@ -38,7 +38,7 @@ public class Book {
         return mPublisher;
     }
 
-    public int getmRating() {
+    public double getmRating() {
         return mRating;
     }
 

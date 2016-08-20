@@ -22,6 +22,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:layout_margin="4dp"
         android:gravity="center" />
 
     <LinearLayout
@@ -52,7 +53,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
-            android:maxLines="1"
+            android:scrollHorizontally="false"
             android:textColor="@color/textColorSecondaryText"
             android:textSize="12sp"
             tools:text="Publisher: Pottermore" />
@@ -63,7 +64,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
-            android:maxLines="1"
+            android:scrollHorizontally="false"
             android:textColor="@color/textColorSecondaryText"
             android:textSize="12sp"
             tools:text="Author: J. K. Rowling" />
@@ -97,7 +98,7 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|end"
-                android:textColor="@color/textColorSecondaryText"
+                android:textColor="@color/textColorTertiaryText"
                 android:textSize="12sp"
                 tools:text="Juvenile Thriller" />
 

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,17 +32,13 @@ class BookAdapter extends ArrayAdapter<Book> {
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.list_item, parent, false);
+                    R.layout.book_list_item, parent, false);
         }
 
         Book currentBook = getItem(position);
 
         ImageView bookImage = (ImageView) listItemView.findViewById(R.id.book_picture);
-        if (currentBook.getmPicture() == null) {
-            bookImage.setImageDrawable(null);
-        } else {
-            bookImage.setImageDrawable(LoadImageFromWebOperations(currentBook.getmPicture()));
-        }
+        Picasso.with(getContext()).load(currentBook.getmPicture()).into(bookImage);
 
         TextView bookTitle = (TextView) listItemView.findViewById(R.id.book_title);
         bookTitle.setText(currentBook.getmTitle());
@@ -55,7 +53,7 @@ class BookAdapter extends ArrayAdapter<Book> {
         bookCategory.setText(currentBook.getmCategory());
 
         RatingBar bookRating = (RatingBar) listItemView.findViewById(R.id.book_rating);
-        bookRating.setNumStars(currentBook.getmRating());
+        bookRating.setRating((float) currentBook.getmRating());
 
 
 
@@ -65,7 +63,7 @@ class BookAdapter extends ArrayAdapter<Book> {
     public static Drawable LoadImageFromWebOperations(String url) {
         try {
             InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "Book Photo");
+            Drawable d = Drawable.createFromStream(is, "photo");
             return d;
         } catch (Exception e) {
             return null;

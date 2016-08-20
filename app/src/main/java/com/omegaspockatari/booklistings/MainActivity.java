@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String API_KEY = "&key=AIzaSyC9OlGW-KQD_9KJbCGKxVJjn6g11Vohqno";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    private String searchTerm;
+    public String searchTerm;
     private EditText userInput;
     private Button searchButton;
     private ArrayList<Book> tempBookArrayList = null;
@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ListView bookListView = (ListView) findViewById(R.id.list);
+
         searchButton = (Button) findViewById(R.id.search_books_button);
         userInput = (EditText) findViewById(R.id.edit_text);
 
@@ -46,10 +48,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 searchTerm = userInput.getText().toString();
+                Log.v(LOG_TAG, searchTerm);
                 if (searchTerm.trim().length() <= 0 || searchTerm.length() <= 0) {
+                    Log.v(LOG_TAG, searchTerm);
                     Toast.makeText(getApplicationContext(), "No Search Entered", Toast.LENGTH_SHORT).show();
                     Log.e(LOG_TAG, "Error Response code: No Search Given");
                 } else {
+                    Log.v(LOG_TAG, searchTerm);
                     BookAsyncTask task = new BookAsyncTask();
                     task.execute();
                 }
@@ -57,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (tempBookArrayList != null) {
-            ListView bookListView = (ListView) findViewById(R.id.list);
 
             BookAdapter adapter = new BookAdapter(this, tempBookArrayList);
 
@@ -213,30 +217,25 @@ public class MainActivity extends AppCompatActivity {
                     /**
                      * Temporary variables for storing/augmenting data to push to a book object
                      */
-                    StringBuilder tempBuilder = new StringBuilder();
-                    String picture = null;
-                    int rating;
-                    int jAuthor = 0;
-                    int jCategory = 0;
+                    String author = "Author: ";
+                    String category = "";
+                    String publisher = "Publisher: ";
+                    double rating;
 
                     JSONObject bookObject = bookArray.getJSONObject(i);
                     JSONObject bookInfo = bookObject.getJSONObject("volumeInfo");
+                    JSONObject bookPictures = bookInfo.getJSONObject("imageLinks");
 
-                    if (bookObject.isNull("imageLinks")) {
-                        Log.v(LOG_TAG, "No Image Files");
-                    } else {
-                        JSONObject bookPictures = bookObject.getJSONObject("imageLinks");
-                        picture = bookPictures.getString("thumbnail");
-                    }
+                    String picture = bookPictures.getString("thumbnail");
 
 
                     String title = bookInfo.getString("title");
-                    String publisher = bookInfo.getString("publisher");
+                    publisher += bookInfo.getString("publisher");
                     if (bookInfo.isNull("averageRating")) {
                         // Default unrated value? Hmm...
                         rating = 5;
                     } else {
-                        rating = bookInfo.getInt("averageRating");
+                        rating = bookInfo.getDouble("averageRating");
                     }
 
                     JSONArray authors = bookInfo.getJSONArray("authors");
@@ -244,32 +243,22 @@ public class MainActivity extends AppCompatActivity {
                     /**
                      * Loop functions for the author(s) array
                      */
-                    while (jAuthor <= authors.length()) {
-                        tempBuilder.append(authors.get(i));
-                        if (authors.length() > 1) {
-                            tempBuilder.append(" ");
+                    if (authors.length() > 0) {
+                        for (int j = 0; j < authors.length(); j++) {
+                            author += authors.optString(j) + " ";
                         }
-                        jAuthor++;
                     }
-
-                    String author = tempBuilder.toString();
 
                     /**
                      * Loop functions for the category(ies) array
                      */
                     JSONArray categories = bookInfo.getJSONArray("categories");
-                    tempBuilder.delete(0, tempBuilder.length());
 
-
-                    while (jCategory <= categories.length()) {
-                        tempBuilder.append(categories.get(i));
-                        if (categories.length() > 1) {
-                            tempBuilder.append(" ");
+                    if (categories.length() > 0) {
+                        for (int j = 0; j < categories.length(); j++) {
+                            category += categories.optString(j) + " ";
                         }
-                        jCategory++;
                     }
-
-                    String category = tempBuilder.toString();
 
                     Log.v(LOG_TAG, title + " " + author + " " + publisher + " " + rating + " " +
                             category + " " + picture);
